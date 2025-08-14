@@ -1,0 +1,65 @@
+@using RestaurantDirectory.Controllers
+@model HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Restaurant Directory</h1>
+    <p>Discover great restaurants in your area!</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <h3>Featured Restaurants</h3>
+        @if (Model.Restaurants.Any())
+        {
+            <div class="row">
+                @foreach (var restaurant in Model.Restaurants)
+                {
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@restaurant.Name</h5>
+                                <p class="card-text">
+                                    <strong>Cuisine:</strong> @restaurant.Cuisine<br />
+                                    <strong>Rating:</strong> 
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        @if (i <= restaurant.Rating)
+                                        {
+                                            <span class="text-warning">★</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">☆</span>
+                                        }
+                                    }
+                                </p>
+                                <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@restaurant.Id" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No restaurants available.</p>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quick Stats</h5>
+                <p class="card-text">
+                    <strong>Total Restaurants:</strong> @Model.TotalCount
+                </p>
+                <a asp-controller="Restaurant" asp-action="Index" class="btn btn-outline-primary">View All Restaurants</a>
+                <br /><br />
+                <a asp-controller="Restaurant" asp-action="Create" class="btn btn-success">Add New Restaurant</a>
+            </div>
+        </div>
+    </div>
+</div>

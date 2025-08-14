@@ -1,0 +1,59 @@
+@model IEnumerable<Restaurant>
+
+@{
+    ViewData["Title"] = "All Restaurants";
+}
+
+<h2>Restaurant Directory</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Restaurant</a>
+</p>
+
+<div class="row">
+    @foreach (var restaurant in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@restaurant.Name</h5>
+                    <p class="card-text">
+                        <strong>Cuisine:</strong> @restaurant.Cuisine<br />
+                        <strong>Rating:</strong> 
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            @if (i <= restaurant.Rating)
+                            {
+                                <span class="text-warning">★</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">☆</span>
+                            }
+                        }
+                        <br />
+                        <strong>Address:</strong> @restaurant.Address
+                    </p>
+                    <!-- Duplicate rating display logic -->
+                    <p class="card-text">
+                        <strong>Customer Rating:</strong> 
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            @if (i <= restaurant.Rating)
+                            {
+                                <span class="text-warning">★</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">☆</span>
+                            }
+                        }
+                    </p>
+                    <a asp-action="Details" asp-route-id="@restaurant.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@restaurant.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@restaurant.Id" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
